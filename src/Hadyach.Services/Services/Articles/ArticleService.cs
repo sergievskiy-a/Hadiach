@@ -10,6 +10,7 @@ using Hadyach.Data.Entities.Articles;
 using Hadyach.Dtos.Articles;
 using Hadyach.Models.Articles;
 using Hadyach.Services.Contracts.Services.Articles;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Hadyach.Services.Services.Articles
@@ -28,43 +29,51 @@ namespace Hadyach.Services.Services.Articles
             this.logger = logger;
         }
 
-        public Task<TResult> AddAsync<TResult>(AddArticleModel model)
+        public async Task<TResult> AddAsync<TResult>(AddArticleModel model)
         {
-            throw new System.NotImplementedException();
+            var article = this.mapper.Map<Article>(model);
+            
+            await this.articleRepository.AddAsync(article);
+            await this.articleRepository.SaveAsync();
+
+            return await GetAsync<TResult>(article.Id);
         }
 
-        public TResult Get<TResult>(int id)
+        public async Task<TResult> GetAsync<TResult>(int id)
         {
-            return this.articleRepository
+            return await this.articleRepository
                 .GetMany(p => p.Id == id)
                 .ProjectTo<TResult>(this.mapper.ConfigurationProvider)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
-        public ICollection<TResult> GetMany<TResult>()
+        public async Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10)
         {
-            return this.GetManyInternal<TResult>();
+            return await this.GetManyInternalAsync<TResult>(skip, top);
         }
 
-        public Task UpdateAsync(AddArticleModel model)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task DeleteAsync(int id)
+        public async Task UpdateAsync(AddArticleModel model)
         {
             throw new System.NotImplementedException();
         }
 
-        private ICollection<TResult> GetManyInternal<TResult>(
-            int skip = 0, int top = 10, Expression<Func<Article, bool>> predicate = null)
+        public async Task DeleteAsync(int id)
         {
-            return this.articleRepository
+            var article = await this.articleRepository.GetSingleAsync(x => x.Id == id);
+            
+            this.articleRepository.Delete(article);
+            await this.articleRepository.SaveAsync();
+        }
+
+        private async Task<ICollection<TResult>> GetManyInternalAsync<TResult>(
+            int skip, int top, Expression<Func<Article, bool>> predicate = null)
+        {
+            return await this.articleRepository
                 .GetMany(predicate)
                 .Skip(skip)
                 .Take(top)
                 .ProjectTo<TResult>(this.mapper.ConfigurationProvider)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

@@ -11,20 +11,20 @@ namespace Hadyach.Common.Data.Repositories
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         where TEntity : class
     {
-        protected readonly DbContext Context;
+        private readonly DbContext Context;
 
-        public GenericRepository(DbContext context)
+        protected GenericRepository(DbContext context)
         {
             this.Context = context;
         }
 
-        protected DbSet<TEntity> Entities => this.Context.Set<TEntity>();
+        private DbSet<TEntity> Entities => this.Context.Set<TEntity>();
 
-        public virtual TEntity GetSingle(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] properties)
+        public virtual async Task<TEntity> GetSingleAsync(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] properties)
         {
             return predicate != null ?
-                this.GetQueryWithIncludes(properties).Where(predicate).SingleOrDefault() :
-                this.GetQueryWithIncludes(properties).SingleOrDefault();
+                await this.GetQueryWithIncludes(properties).Where(predicate).SingleOrDefaultAsync() :
+                await this.GetQueryWithIncludes(properties).SingleOrDefaultAsync();
         }
 
         public virtual IQueryable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate = null, params Expression<Func<TEntity, object>>[] properties)
@@ -34,14 +34,14 @@ namespace Hadyach.Common.Data.Repositories
                 this.GetQueryWithIncludes(properties);
         }
 
-        public void Add(TEntity entity)
+        public async Task AddAsync(TEntity entity)
         {
-            this.Entities.Add(entity);
+            await this.Entities.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> entities)
+        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
-            this.Entities.AddRange(entities);
+            await this.Entities.AddRangeAsync(entities);
         }
 
         public void DeleteRange(IEnumerable<TEntity> entities)

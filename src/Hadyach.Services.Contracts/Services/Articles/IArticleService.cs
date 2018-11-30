@@ -12,9 +12,9 @@ namespace Hadyach.Services.Contracts.Services.Articles
     {
         Task<TResult> AddAsync<TResult>(AddArticleModel model);
 
-        TResult Get<TResult>(int id);
+        Task<TResult> GetAsync<TResult>(int id);
 
-        ICollection<TResult> GetMany<TResult>();
+        Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10);
 
         Task UpdateAsync(AddArticleModel model);
 

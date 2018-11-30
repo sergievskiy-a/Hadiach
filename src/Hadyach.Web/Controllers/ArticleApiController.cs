@@ -22,15 +22,15 @@ namespace Hadyach.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(this.articleService.GetMany<ArticleDto>());
+            return Ok(await this.articleService.GetManyAsync<ArticleDto>());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return this.Ok(this.articleService.Get<ArticleDto>(id));
+            return this.Ok(await this.articleService.GetAsync<ArticleDto>(id));
         }
 
         [HttpPost]

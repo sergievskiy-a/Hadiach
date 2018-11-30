@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Hadyach.AutoMapper\Hadyach.AutoMapper.csproj" />
     <ProjectReference Include="..\Hadyach.Data\Hadyach.Data.csproj" />
     <ProjectReference Include="..\Hadyach.IoC\Hadyach.IoC.csproj" />
     <ProjectReference Include="..\Hadyach.Services.Contracts\Hadyach.Services.Contracts.csproj" />

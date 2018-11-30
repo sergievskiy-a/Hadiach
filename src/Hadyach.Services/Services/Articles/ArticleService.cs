@@ -23,9 +23,11 @@ namespace Hadyach.Services.Services.Articles
 
         public ArticleService(
             IHadyachRepository<Article> articleRepository,
+            IMapper mapper,
             ILogger<ArticleService> logger)
         {
             this.articleRepository = articleRepository;
+            this.mapper = mapper;
             this.logger = logger;
         }
 

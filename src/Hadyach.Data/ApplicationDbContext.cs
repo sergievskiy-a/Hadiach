@@ -1,4 +1,5 @@
 ﻿using Hadyach.Data.Entities;
+using Hadyach.Data.Entities.Articles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,5 +19,7 @@ namespace Hadyach.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<Article> Articles { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hadyach.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/article")]
     [ApiController]
     public class ArticleApiController : ControllerBase
     {

@@ -3,23 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Web", "Hadyach.Web\Hadyach.Web.csproj", "{7673688C-44FE-4C9B-A580-F933628020AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Web", "Hadyach.Web\Hadyach.Web.csproj", "{7673688C-44FE-4C9B-A580-F933628020AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Data", "Hadyach.Data\Hadyach.Data.csproj", "{6AB6AB06-8215-4D04-A167-9D54496A7A11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Data", "Hadyach.Data\Hadyach.Data.csproj", "{6AB6AB06-8215-4D04-A167-9D54496A7A11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Common.Data", "Hadyach.Common.Data\Hadyach.Common.Data.csproj", "{749AB8AC-E347-4FD4-8432-D7C46A5BBB41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Common.Data", "Hadyach.Common.Data\Hadyach.Common.Data.csproj", "{749AB8AC-E347-4FD4-8432-D7C46A5BBB41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Services.Contracts", "Hadyach.Services.Contracts\Hadyach.Services.Contracts.csproj", "{CC342306-CE87-48CD-B873-504E620A261A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Services.Contracts", "Hadyach.Services.Contracts\Hadyach.Services.Contracts.csproj", "{CC342306-CE87-48CD-B873-504E620A261A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Services", "Hadyach.Services\Hadyach.Services.csproj", "{C33B423D-C261-48E9-8B32-FBB87A011E52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Services", "Hadyach.Services\Hadyach.Services.csproj", "{C33B423D-C261-48E9-8B32-FBB87A011E52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Models", "Hadyach.Models\Hadyach.Models.csproj", "{BC0A035B-E905-4547-9CAC-2EE6D28D2275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Models", "Hadyach.Models\Hadyach.Models.csproj", "{BC0A035B-E905-4547-9CAC-2EE6D28D2275}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Dtos", "Hadyach.Dtos\Hadyach.Dtos.csproj", "{2F846E71-9359-429A-A44F-A4B4071362ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Dtos", "Hadyach.Dtos\Hadyach.Dtos.csproj", "{2F846E71-9359-429A-A44F-A4B4071362ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.AutoMapper", "Hadyach.AutoMapper\Hadyach.AutoMapper.csproj", "{40190003-E475-4EE6-B909-5207ECD9B191}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.AutoMapper", "Hadyach.AutoMapper\Hadyach.AutoMapper.csproj", "{40190003-E475-4EE6-B909-5207ECD9B191}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.IoC", "Hadyach.IoC\Hadyach.IoC.csproj", "{F2D0599A-CEB2-4DF5-ACF8-4F76B648B813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.IoC", "Hadyach.IoC\Hadyach.IoC.csproj", "{F2D0599A-CEB2-4DF5-ACF8-4F76B648B813}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Common", "Hadyach.Common\Hadyach.Common.csproj", "{722F6156-36D7-43B3-B95D-7C287D36463C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{F2D0599A-CEB2-4DF5-ACF8-4F76B648B813}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2D0599A-CEB2-4DF5-ACF8-4F76B648B813}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2D0599A-CEB2-4DF5-ACF8-4F76B648B813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722F6156-36D7-43B3-B95D-7C287D36463C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722F6156-36D7-43B3-B95D-7C287D36463C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722F6156-36D7-43B3-B95D-7C287D36463C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722F6156-36D7-43B3-B95D-7C287D36463C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

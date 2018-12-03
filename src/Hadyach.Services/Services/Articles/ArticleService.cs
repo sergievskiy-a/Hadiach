@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Hadyach.Common.Exceptions;
 using Hadyach.Data.Contracts;
 using Hadyach.Data.Entities.Articles;
 using Hadyach.Dtos.Articles;
@@ -43,10 +44,17 @@ namespace Hadyach.Services.Services.Articles
 
         public async Task<TResult> GetAsync<TResult>(int id)
         {
-            return await this.articleRepository
+            var result = await this.articleRepository
                 .GetMany(p => p.Id == id)
                 .ProjectTo<TResult>(this.mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
+
+            if (result == null)
+            {
+                throw new NotFoundException(id);
+            }
+
+            return result;
         }
 
         public async Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10)

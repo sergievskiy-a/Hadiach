@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Hadyach.Web.Services;
 using Microsoft.OpenApi.Models;
+using System.Threading.Tasks;
+using Hadyach.Web.Middleware;
 
 namespace Hadyach.Web
 {
@@ -44,6 +46,15 @@ namespace Hadyach.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = 401;
+                    return Task.CompletedTask;
+                };
+            });
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -66,12 +77,12 @@ namespace Hadyach.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseExceptionHandler();
                 app.UseHsts();
             }
 
@@ -90,7 +101,9 @@ namespace Hadyach.Web
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

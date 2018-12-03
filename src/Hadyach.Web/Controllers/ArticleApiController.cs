@@ -4,6 +4,7 @@ using AutoMapper;
 using Hadyach.Dtos.Articles;
 using Hadyach.Models.Articles;
 using Hadyach.Services.Contracts.Services.Articles;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hadyach.Web.Controllers
@@ -33,6 +34,7 @@ namespace Hadyach.Web.Controllers
             return this.Ok(await this.articleService.GetAsync<ArticleDto>(id));
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddArticleDto dto)
         {
@@ -42,6 +44,7 @@ namespace Hadyach.Web.Controllers
             return this.Created($"/api/article/{created.Id}", created);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

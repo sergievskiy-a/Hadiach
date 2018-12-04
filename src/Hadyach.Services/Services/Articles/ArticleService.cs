@@ -10,6 +10,7 @@ using Hadyach.Data.Contracts;
 using Hadyach.Data.Entities.Articles;
 using Hadyach.Dtos.Articles;
 using Hadyach.Models.Articles;
+using Hadyach.Models.Articles.Base;
 using Hadyach.Services.Contracts.Services.Articles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -62,9 +63,13 @@ namespace Hadyach.Services.Services.Articles
             return await this.GetManyInternalAsync<TResult>(skip, top);
         }
 
-        public async Task UpdateAsync(AddArticleModel model)
+        public async Task<TResult> UpdateAsync<TResult>(UpdateArticleModel model)
         {
-            throw new System.NotImplementedException();
+            var updatedEntity = this.mapper.Map<Article>(model);
+            this.articleRepository.Update(updatedEntity);
+            await this.articleRepository.SaveAsync();
+
+            return await GetAsync<TResult>(updatedEntity.Id);
         }
 
         public async Task DeleteAsync(int id)

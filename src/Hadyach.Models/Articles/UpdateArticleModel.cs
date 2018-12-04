@@ -2,7 +2,8 @@
 
 namespace Hadyach.Models.Articles
 {
-    public class AddArticleModel : BaseArticleModel
+    public class UpdateArticleModel: BaseArticleModel
     {
+        public int Id { get; set; }
     }
 }

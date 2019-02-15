@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.AutoMapper", "Hadya
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.IoC", "Hadyach.IoC\Hadyach.IoC.csproj", "{F2D0599A-CEB2-4DF5-ACF8-4F76B648B813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Common", "Hadyach.Common\Hadyach.Common.csproj", "{722F6156-36D7-43B3-B95D-7C287D36463C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hadyach.Common", "Hadyach.Common\Hadyach.Common.csproj", "{722F6156-36D7-43B3-B95D-7C287D36463C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hadyach.Validators", "Hadyach.Validators\Hadyach.Validators.csproj", "{64A07DDB-F8E5-42A7-A351-E088F81029EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{722F6156-36D7-43B3-B95D-7C287D36463C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{722F6156-36D7-43B3-B95D-7C287D36463C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{722F6156-36D7-43B3-B95D-7C287D36463C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A07DDB-F8E5-42A7-A351-E088F81029EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A07DDB-F8E5-42A7-A351-E088F81029EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A07DDB-F8E5-42A7-A351-E088F81029EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A07DDB-F8E5-42A7-A351-E088F81029EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

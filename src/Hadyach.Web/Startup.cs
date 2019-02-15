@@ -19,6 +19,10 @@ using System.Threading.Tasks;
 using Hadyach.Web.Middleware;
 using System.IO;
 using System;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Hadyach.Dtos.Articles;
+using Hadyach.Validators.Articles;
 
 namespace Hadyach.Web
 {
@@ -63,7 +67,8 @@ namespace Hadyach.Web
             services.RegisterServices();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .AddFluentValidation()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -77,6 +82,9 @@ namespace Hadyach.Web
             });
             
             services.AddAutoMapper(typeof(ArticleProfile).GetTypeInfo().Assembly);
+
+            services.AddTransient<IValidator<AddArticleDto>, AddArticleDtoValidator>();
+            services.AddTransient<IValidator<UpdateArticleDto>, UpdateArticleDtoValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Hadyach.Data\Hadyach.Data.csproj" />
     <ProjectReference Include="..\Hadyach.Dtos\Hadyach.Dtos.csproj" />
     <ProjectReference Include="..\Hadyach.Models\Hadyach.Models.csproj" />
+    <ProjectReference Include="..\Hadyach.Services\Hadyach.Services.csproj" />
   </ItemGroup>
 
 </Project>

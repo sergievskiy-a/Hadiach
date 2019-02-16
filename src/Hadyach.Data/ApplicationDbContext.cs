@@ -1,5 +1,6 @@
 ﻿using Hadyach.Data.Entities;
 using Hadyach.Data.Entities.Articles;
+using Hadyach.Data.Entities.Categories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,5 +22,6 @@ namespace Hadyach.Data
         }
 
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

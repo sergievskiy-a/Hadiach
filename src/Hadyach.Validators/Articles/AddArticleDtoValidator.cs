@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Hadyach.Dtos.Articles;
+using Hadyach.Dtos.Articles.Base;
 
 namespace Hadyach.Validators.Articles
 {
@@ -7,8 +8,11 @@ namespace Hadyach.Validators.Articles
     {
         public AddArticleDtoValidator()
         {
-            RuleFor(dto => dto.Title).MinimumLength(1);
-            RuleFor(dto => dto.Description).MinimumLength(5);
+        }
+
+        public AddArticleDtoValidator(IValidator<BaseArticleDto> baseValidator)
+        {
+            this.Include(baseValidator);
         }
     }
 }

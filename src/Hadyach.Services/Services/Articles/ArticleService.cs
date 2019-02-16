@@ -12,6 +12,7 @@ using Hadyach.Dtos.Articles;
 using Hadyach.Models.Articles;
 using Hadyach.Models.Articles.Base;
 using Hadyach.Services.Contracts.Services.Articles;
+using Hadyach.Services.Contracts.Services.Categories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -20,15 +21,18 @@ namespace Hadyach.Services.Services.Articles
     public class ArticleService : IArticleService
     {
         private readonly IHadyachRepository<Article> articleRepository;
+        private readonly ICategoryService categoryService;
         private readonly IMapper mapper;
         private readonly ILogger<ArticleService> logger;
 
         public ArticleService(
             IHadyachRepository<Article> articleRepository,
+            ICategoryService categoryService,
             IMapper mapper,
             ILogger<ArticleService> logger)
         {
             this.articleRepository = articleRepository;
+            this.categoryService = categoryService;
             this.mapper = mapper;
             this.logger = logger;
         }
@@ -36,7 +40,9 @@ namespace Hadyach.Services.Services.Articles
         public async Task<TResult> AddAsync<TResult>(AddArticleModel model)
         {
             var article = this.mapper.Map<Article>(model);
-            
+
+            article.CreatedDateTime = DateTime.Now;
+
             await this.articleRepository.AddAsync(article);
             await this.articleRepository.SaveAsync();
 
@@ -47,7 +53,6 @@ namespace Hadyach.Services.Services.Articles
         {
             var result = await this.articleRepository
                 .GetMany(p => p.Id == id)
-                .ProjectTo<TResult>(this.mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             if (result == null)
@@ -55,17 +60,31 @@ namespace Hadyach.Services.Services.Articles
                 throw new NotFoundException(id);
             }
 
-            return result;
+            return this.mapper.Map<TResult>(result);
         }
 
-        public async Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10)
+        public async Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10, int? categoryId = null)
         {
-            return await this.GetManyInternalAsync<TResult>(skip, top);
+            List<int> categoryIds = new List<int>();
+            if(categoryId.HasValue)
+            {
+                categoryIds.AddRange(await this.categoryService.GetCategoryWithChildIds(categoryId.Value));
+            }
+
+            return await this.GetManyInternalAsync<TResult>(
+                skip,
+                top,
+                article =>
+                    (!categoryId.HasValue
+                      || (categoryId.HasValue && article.CategoryId.HasValue && categoryIds.Contains(article.CategoryId.Value))));
         }
 
         public async Task<TResult> UpdateAsync<TResult>(UpdateArticleModel model)
         {
             var updatedEntity = this.mapper.Map<Article>(model);
+
+            updatedEntity.ModifiedDateTime = DateTime.Now;
+
             this.articleRepository.Update(updatedEntity);
             await this.articleRepository.SaveAsync();
 
@@ -83,10 +102,14 @@ namespace Hadyach.Services.Services.Articles
         private async Task<ICollection<TResult>> GetManyInternalAsync<TResult>(
             int skip, int top, Expression<Func<Article, bool>> predicate = null)
         {
-            return await this.articleRepository
+            var query = this.articleRepository
                 .GetMany(predicate)
                 .Skip(skip)
                 .Take(top)
+                .Where(x => x.PublishedDateTime <= DateTime.Now)
+                .OrderByDescending(x => x.Pinned).ThenByDescending(x => x.PublishedDateTime);
+
+            return await query
                 .ProjectTo<TResult>(this.mapper.ConfigurationProvider)
                 .ToListAsync();
         }

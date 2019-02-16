@@ -14,7 +14,7 @@ namespace Hadyach.Services.Contracts.Services.Articles
 
         Task<TResult> GetAsync<TResult>(int id);
 
-        Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10);
+        Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10, int? categoryId = null);
 
         Task<TResult> UpdateAsync<TResult>(UpdateArticleModel model);
 

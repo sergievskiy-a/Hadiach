@@ -23,6 +23,13 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hadyach.Dtos.Articles;
 using Hadyach.Validators.Articles;
+using Hadyach.Dtos.Articles.Base;
+using Hadyach.Dtos.Categories;
+using Hadyach.Validators.Categories;
+using Hadyach.Validators.Categories.Base;
+using Hadyach.Validators.Articles.Base;
+using Hadyach.Dtos.Categories.Base;
+using Hadyach.Services.Resolvers;
 
 namespace Hadyach.Web
 {
@@ -64,7 +71,9 @@ namespace Hadyach.Web
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.RegisterServices();
+            services.RegisterHadiachRepositories();
+            services.RegisterHadiachServices();
+            services.RegisterHadiachValidators();
 
             services.AddMvc()
                 .AddFluentValidation()
@@ -81,10 +90,7 @@ namespace Hadyach.Web
                 c.IncludeXmlComments(xmlPath);
             });
             
-            services.AddAutoMapper(typeof(ArticleProfile).GetTypeInfo().Assembly);
-
-            services.AddTransient<IValidator<AddArticleDto>, AddArticleDtoValidator>();
-            services.AddTransient<IValidator<UpdateArticleDto>, UpdateArticleDtoValidator>();
+            services.AddAutoMapper(typeof(ArticleProfile).GetTypeInfo().Assembly, typeof(ParentCategoriesResolver).GetTypeInfo().Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

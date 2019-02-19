@@ -70,7 +70,7 @@ namespace Hadyach.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Hadyach.Data.Entities.Articles.Article", b =>
+            modelBuilder.Entity("Hadyach.Data.Entities.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -97,11 +97,26 @@ namespace Hadyach.Data.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("Hadyach.Data.Entities.Categories.Category", b =>
+            modelBuilder.Entity("Hadyach.Data.Entities.ArticleTag", b =>
+                {
+                    b.Property<int>("ArticleId");
+
+                    b.Property<int>("TagId");
+
+                    b.HasKey("ArticleId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ArticleTags");
+                });
+
+            modelBuilder.Entity("Hadyach.Data.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Alias");
 
                     b.Property<string>("Description");
 
@@ -114,6 +129,19 @@ namespace Hadyach.Data.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Hadyach.Data.Entities.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -226,16 +254,29 @@ namespace Hadyach.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Hadyach.Data.Entities.Articles.Article", b =>
+            modelBuilder.Entity("Hadyach.Data.Entities.Article", b =>
                 {
-                    b.HasOne("Hadyach.Data.Entities.Categories.Category", "Category")
+                    b.HasOne("Hadyach.Data.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
                 });
 
-            modelBuilder.Entity("Hadyach.Data.Entities.Categories.Category", b =>
+            modelBuilder.Entity("Hadyach.Data.Entities.ArticleTag", b =>
                 {
-                    b.HasOne("Hadyach.Data.Entities.Categories.Category", "ParentCategory")
+                    b.HasOne("Hadyach.Data.Entities.Article", "Article")
+                        .WithMany("ArticleTags")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Hadyach.Data.Entities.Tag", "Tag")
+                        .WithMany("TagArticles")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Hadyach.Data.Entities.Category", b =>
+                {
+                    b.HasOne("Hadyach.Data.Entities.Category", "ParentCategory")
                         .WithMany()
                         .HasForeignKey("ParentCategoryId");
                 });

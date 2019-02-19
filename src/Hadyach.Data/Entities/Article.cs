@@ -1,8 +1,8 @@
 ﻿using Hadyach.Common.Data.Contracts;
-using Hadyach.Data.Entities.Categories;
 using System;
+using System.Collections.Generic;
 
-namespace Hadyach.Data.Entities.Articles
+namespace Hadyach.Data.Entities
 {
     public class Article : IEntity<int>
     {
@@ -23,5 +23,7 @@ namespace Hadyach.Data.Entities.Articles
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public List<ArticleTag> ArticleTags { get; set; }
     }
 }

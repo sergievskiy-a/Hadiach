@@ -7,10 +7,8 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Hadyach.Common.Exceptions;
 using Hadyach.Data.Contracts;
-using Hadyach.Data.Entities.Articles;
-using Hadyach.Dtos.Articles;
+using Hadyach.Data.Entities;
 using Hadyach.Models.Articles;
-using Hadyach.Models.Articles.Base;
 using Hadyach.Services.Contracts.Services.Articles;
 using Hadyach.Services.Contracts.Services.Categories;
 using Microsoft.EntityFrameworkCore;
@@ -21,17 +19,20 @@ namespace Hadyach.Services.Services.Articles
     public class ArticleService : IArticleService
     {
         private readonly IHadyachRepository<Article> articleRepository;
+        private readonly IHadyachRepository<ArticleTag> articleTagRepository;
         private readonly ICategoryService categoryService;
         private readonly IMapper mapper;
         private readonly ILogger<ArticleService> logger;
 
         public ArticleService(
             IHadyachRepository<Article> articleRepository,
+            IHadyachRepository<ArticleTag> articleTagRepository,
             ICategoryService categoryService,
             IMapper mapper,
             ILogger<ArticleService> logger)
         {
             this.articleRepository = articleRepository;
+            this.articleTagRepository = articleTagRepository;
             this.categoryService = categoryService;
             this.mapper = mapper;
             this.logger = logger;
@@ -46,13 +47,19 @@ namespace Hadyach.Services.Services.Articles
             await this.articleRepository.AddAsync(article);
             await this.articleRepository.SaveAsync();
 
+            //foreach(var tag in model.Tags)
+            //{
+            //    await this.articleTagRepository.AddAsync(new ArticleTag { ArticleId = article.Id, Tag = tag });
+            //}
+
             return await GetAsync<TResult>(article.Id);
         }
 
         public async Task<TResult> GetAsync<TResult>(int id)
         {
             var result = await this.articleRepository
-                .GetMany(p => p.Id == id)
+                .GetMany(p => p.Id == id,
+                    include => include.ArticleTags)
                 .FirstOrDefaultAsync();
 
             if (result == null)
@@ -63,9 +70,11 @@ namespace Hadyach.Services.Services.Articles
             return this.mapper.Map<TResult>(result);
         }
 
-        public async Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10, int? categoryId = null)
+        public async Task<ICollection<TResult>> GetManyAsync<TResult>(int skip = 0, int top = 10,
+            int? categoryId = null, string tag = null)
         {
             List<int> categoryIds = new List<int>();
+
             if(categoryId.HasValue)
             {
                 categoryIds.AddRange(await this.categoryService.GetCategoryWithChildIds(categoryId.Value));
@@ -76,7 +85,9 @@ namespace Hadyach.Services.Services.Articles
                 top,
                 article =>
                     (!categoryId.HasValue
-                      || (categoryId.HasValue && article.CategoryId.HasValue && categoryIds.Contains(article.CategoryId.Value))));
+                      || (categoryId.HasValue && article.CategoryId.HasValue && categoryIds.Contains(article.CategoryId.Value)))
+                    && (string.IsNullOrWhiteSpace(tag)
+                      || (!string.IsNullOrWhiteSpace(tag) && article.ArticleTags.Any(x => x.Tag.Value == tag))));
         }
 
         public async Task<TResult> UpdateAsync<TResult>(UpdateArticleModel model)
@@ -87,6 +98,14 @@ namespace Hadyach.Services.Services.Articles
 
             this.articleRepository.Update(updatedEntity);
             await this.articleRepository.SaveAsync();
+
+            var existedTags = await this.articleTagRepository.GetMany(x => x.ArticleId == model.Id).ToListAsync();
+            this.articleTagRepository.DeleteRange(existedTags);
+
+            //foreach (var tag in model.Tags)
+            //{
+            //    await this.articleTagRepository.AddAsync(new ArticleTag { ArticleId = model.Id, Tag = tag });
+            //}
 
             return await GetAsync<TResult>(updatedEntity.Id);
         }
@@ -103,7 +122,8 @@ namespace Hadyach.Services.Services.Articles
             int skip, int top, Expression<Func<Article, bool>> predicate = null)
         {
             var query = this.articleRepository
-                .GetMany(predicate)
+                .GetMany(predicate,
+                    include => include.ArticleTags.Select(t => t.Tag))
                 .Skip(skip)
                 .Take(top)
                 .Where(x => x.PublishedDateTime <= DateTime.Now)

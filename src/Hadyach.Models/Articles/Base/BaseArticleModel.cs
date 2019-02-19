@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hadyach.Models.Articles.Base
 {
@@ -13,5 +14,7 @@ namespace Hadyach.Models.Articles.Base
         public string Description { get; set; }
 
         public int? CategoryId { get; set; }
+
+        public List<string> Tags { get; set; }
     }
 }

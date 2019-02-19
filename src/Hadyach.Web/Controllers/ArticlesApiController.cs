@@ -27,11 +27,13 @@ namespace Hadyach.Web.Controllers
         /// </summary>
         /// <param name="skip"></param>
         /// <param name="top"></param>
+        /// <param name="categoryId"></param>
+        /// <param name="tag"></param>
         /// <returns>Existed articles</returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll(int skip = 0, int top = 5, int? categoryId = null)
+        public async Task<IActionResult> GetAll(int skip = 0, int top = 5, int? categoryId = null, string tag = null)
         {
-            return Ok(await this.articleService.GetManyAsync<ArticleDto>(skip, top, categoryId));
+            return Ok(await this.articleService.GetManyAsync<ArticleDto>(skip, top, categoryId, tag));
         }
 
         /// <summary>

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
-using Hadyach.Data.Entities.Articles;
+using Hadyach.Data.Entities;
 using Hadyach.Dtos.Articles;
 using Hadyach.Dtos.Articles.Base;
 using Hadyach.Models.Articles;
 using Hadyach.Models.Articles.Base;
 using Hadyach.Services.Resolvers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Hadyach.AutoMapper.Profiles
 {
@@ -36,7 +38,8 @@ namespace Hadyach.AutoMapper.Profiles
             this.CreateMap<Article, BaseArticleDto>();
 
             this.CreateMap<Article, ArticleDto>()
-                .IncludeBase<Article, BaseArticleDto>();
+                .IncludeBase<Article, BaseArticleDto>()
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom<TagsResolver, List<ArticleTag>>(src => src.ArticleTags));
         }
 
     }

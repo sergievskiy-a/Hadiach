@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Hadyach.Data.Contracts;
-using Hadyach.Data.Entities.Categories;
+using Hadyach.Data.Entities;
 using Hadyach.Dtos.Categories.Base;
 using System.Linq;
 using System.Threading.Tasks;

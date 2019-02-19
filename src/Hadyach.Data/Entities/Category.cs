@@ -1,10 +1,12 @@
 ﻿using Hadyach.Common.Data.Contracts;
 
-namespace Hadyach.Data.Entities.Categories
+namespace Hadyach.Data.Entities
 {
     public class Category : IEntity<int>
     {
         public int Id { get; set; }
+
+        public string Alias { get; set; }
 
         public string Title { get; set; }
 

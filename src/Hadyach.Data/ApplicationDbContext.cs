@@ -1,6 +1,4 @@
 ﻿using Hadyach.Data.Entities;
-using Hadyach.Data.Entities.Articles;
-using Hadyach.Data.Entities.Categories;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,12 +14,25 @@ namespace Hadyach.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<ArticleTag>().HasKey(sc => new { sc.ArticleId, sc.TagId });
+
+            builder.Entity<ArticleTag>()
+                .HasOne<Article>(sc => sc.Article)
+                .WithMany(s => s.ArticleTags)
+                .HasForeignKey(sc => sc.ArticleId);
+
+
+            builder.Entity<ArticleTag>()
+                .HasOne<Tag>(sc => sc.Tag)
+                .WithMany(s => s.TagArticles)
+                .HasForeignKey(sc => sc.TagId);
         }
 
         public DbSet<Article> Articles { get; set; }
+
+        public DbSet<ArticleTag> ArticleTags { get; set; }
+
         public DbSet<Category> Categories { get; set; }
     }
 }

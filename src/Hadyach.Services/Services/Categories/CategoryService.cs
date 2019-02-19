@@ -7,7 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Hadyach.Common.Exceptions;
 using Hadyach.Data.Contracts;
-using Hadyach.Data.Entities.Categories;
+using Hadyach.Data.Entities;
 using Hadyach.Models.Categories;
 using Hadyach.Services.Contracts.Services.Categories;
 using Microsoft.EntityFrameworkCore;

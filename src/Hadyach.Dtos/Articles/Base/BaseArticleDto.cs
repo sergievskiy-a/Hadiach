@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hadyach.Dtos.Articles.Base
 {
@@ -13,5 +14,8 @@ namespace Hadyach.Dtos.Articles.Base
         public string Description { get; set; }
 
         public int? CategoryId { get; set; }
+
+        public List<string> Tags { get; set; }
     }
+
 }

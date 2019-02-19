@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hadyach.Data.Entities.Categories;
+using Hadyach.Data.Entities;
 using Hadyach.Dtos.Categories;
 using Hadyach.Dtos.Categories.Base;
 using Hadyach.Models.Categories;

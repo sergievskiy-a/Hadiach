@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Hadyach.Data.Contracts;
-using Hadyach.Data.Entities.Articles;
-using Hadyach.Data.Entities.Categories;
+using Hadyach.Data.Entities;
 using Hadyach.Data.Repositories;
 using Hadyach.Dtos.Articles;
 using Hadyach.Dtos.Articles.Base;
@@ -27,12 +26,16 @@ namespace Hadyach.IoC.Extensions
             services.AddTransient<IArticleService, ArticleService>();
             services.AddTransient<ICategoryService, CategoryService>();
 
+            services.AddTransient(typeof(ParentCategoriesResolver));
+            services.AddTransient(typeof(TagsResolver));
+
             return services;
         }
 
         public static IServiceCollection RegisterHadiachRepositories(this IServiceCollection services)
         {
             services.AddTransient<IHadyachRepository<Article>, HadyachRepository<Article>>();
+            services.AddTransient<IHadyachRepository<ArticleTag>, HadyachRepository<ArticleTag>>();
             services.AddTransient<IHadyachRepository<Category>, HadyachRepository<Category>>();
 
             return services;
@@ -46,8 +49,6 @@ namespace Hadyach.IoC.Extensions
             services.AddTransient<IValidator<BaseCategoryDto>, BaseCategoryDtoValidator>();
             services.AddTransient<IValidator<AddCategoryDto>, AddCategoryDtoValidator>();
             services.AddTransient<IValidator<UpdateCategoryDto>, UpdateCategoryDtoValidator>();
-
-            services.AddTransient(typeof(ParentCategoriesResolver));
 
             return services;
         }
